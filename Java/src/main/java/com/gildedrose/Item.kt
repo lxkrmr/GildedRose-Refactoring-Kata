@@ -13,6 +13,7 @@ open class BaseItem(name: String, sellIn: Int, quality: Int) : Item(name, sellIn
     fun update() {
         age()
         degrade()
+        saturate()
     }
 
     protected open fun age() {
@@ -20,21 +21,22 @@ open class BaseItem(name: String, sellIn: Int, quality: Int) : Item(name, sellIn
     }
 
     protected open fun degrade() {
-        if (quality > 0) {
+        quality -= 1
+        if (sellIn < 0) {
             quality -= 1
         }
-        if (sellIn < 0 && quality > 0) {
-            quality -= 1
-        }
+    }
+
+    protected open fun saturate() {
+        if (quality < 0) quality = 0
+        if (quality > 50) quality = 50
     }
 }
 
 class Brie(name: String, sellIn: Int, quality: Int) : BaseItem(name, sellIn, quality) {
     override fun degrade() {
-        if (quality < 50) {
-            quality += 1
-        }
-        if (sellIn < 0 && quality < 50) {
+        quality += 1
+        if (sellIn < 0) {
             quality += 1
         }
     }
@@ -42,18 +44,12 @@ class Brie(name: String, sellIn: Int, quality: Int) : BaseItem(name, sellIn, qua
 
 class Pass(name: String, sellIn: Int, quality: Int) : BaseItem(name, sellIn, quality) {
     override fun degrade() {
-        if (quality < 50) {
+        quality += 1
+        if (sellIn < 10) {
             quality += 1
-            if (sellIn < 10) {
-                if (quality < 50) {
-                    quality += 1
-                }
-            }
-            if (sellIn < 5) {
-                if (quality < 50) {
-                    quality += 1
-                }
-            }
+        }
+        if (sellIn < 5) {
+            quality += 1
         }
         if (sellIn < 0) {
             quality = 0
@@ -62,12 +58,12 @@ class Pass(name: String, sellIn: Int, quality: Int) : BaseItem(name, sellIn, qua
 }
 
 class Sulfuras(name: String, sellIn: Int, quality: Int) : BaseItem(name, sellIn, quality) {
-    override fun age() {
-        // sulfuras is not allowed to update anything here
-    }
+    override fun age() {}
 
-    override fun degrade() {
-        // sulfuras is not allowed to update anything here
-    }
+    override fun degrade() {}
+
+    override fun saturate() {}
+
+
 }
 
