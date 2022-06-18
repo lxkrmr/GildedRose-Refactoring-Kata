@@ -21,38 +21,31 @@ open class BaseItem(name: String, sellIn: Int, quality: Int) : Item(name, sellIn
     }
 
     protected open fun degrade() {
-        quality -= 1
-        if (sellIn < 0) {
-            quality -= 1
-        }
+        quality -= if (sellIn < 0) 2 else 1
     }
 
     protected open fun saturate() {
-        if (quality < 0) quality = 0
-        if (quality > 50) quality = 50
+        quality = when {
+            quality < 0 -> 0
+            quality > 50 -> 50
+            else -> quality
+        }
     }
 }
 
 class Brie(name: String, sellIn: Int, quality: Int) : BaseItem(name, sellIn, quality) {
     override fun degrade() {
-        quality += 1
-        if (sellIn < 0) {
-            quality += 1
-        }
+        quality += if (sellIn < 0) 2 else 1
     }
 }
 
 class Pass(name: String, sellIn: Int, quality: Int) : BaseItem(name, sellIn, quality) {
     override fun degrade() {
-        quality += 1
-        if (sellIn < 10) {
-            quality += 1
-        }
-        if (sellIn < 5) {
-            quality += 1
-        }
-        if (sellIn < 0) {
-            quality = 0
+        quality = when {
+            sellIn < 0 -> 0
+            sellIn < 5 -> quality + 3
+            sellIn < 10 -> quality + 2
+            else -> quality + 1
         }
     }
 }
