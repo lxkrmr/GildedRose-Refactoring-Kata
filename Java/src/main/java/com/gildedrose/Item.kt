@@ -12,8 +12,8 @@ open class Item(
 open class BaseItem(name: String, sellIn: Int, quality: Int) : Item(name, sellIn, quality) {
     fun update() {
         update1()
+        age()
         update2()
-        update3()
     }
 
     protected open fun update1() {
@@ -22,11 +22,11 @@ open class BaseItem(name: String, sellIn: Int, quality: Int) : Item(name, sellIn
         }
     }
 
-    protected open fun update2() {
+    protected open fun age() {
         sellIn -= 1
     }
 
-    protected open fun update3() {
+    protected open fun update2() {
         if (sellIn < 0 && quality > 0) {
             quality = quality - 1
         }
@@ -40,7 +40,7 @@ class Brie(name: String, sellIn: Int, quality: Int) : BaseItem(name, sellIn, qua
         }
     }
 
-    override fun update3() {
+    override fun update2() {
         if (sellIn < 0 && quality < 50) {
             quality += 1
         }
@@ -64,7 +64,7 @@ class Pass(name: String, sellIn: Int, quality: Int) : BaseItem(name, sellIn, qua
         }
     }
 
-    override fun update3() {
+    override fun update2() {
         if (sellIn < 0) {
             quality = 0
         }
@@ -76,11 +76,11 @@ class Sulfuras(name: String, sellIn: Int, quality: Int) : BaseItem(name, sellIn,
         // sulfuras is not allowed to update anything here
     }
 
-    override fun update2() {
+    override fun age() {
         // sulfuras is not allowed to update anything here
     }
 
-    override fun update3() {
+    override fun update2() {
         // sulfuras is not allowed to update anything here
     }
 }
