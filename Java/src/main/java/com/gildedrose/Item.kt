@@ -12,8 +12,7 @@ open class Item(
 open class BaseItem(name: String, sellIn: Int, quality: Int) : Item(name, sellIn, quality) {
     fun update() {
         sellIn = sellIn - aging()
-        quality = quality - degradation(sellIn)
-        quality = saturation(quality)
+        quality = saturation(quality - degradation(sellIn))
     }
 
     protected open fun aging() = 1
@@ -32,17 +31,17 @@ open class BaseItem(name: String, sellIn: Int, quality: Int) : Item(name, sellIn
 
 class Brie(name: String, sellIn: Int, quality: Int) : BaseItem(name, sellIn, quality) {
     override fun degradation(sellIn: Int): Int = when {
-        sellIn < 0 -> - 2
-        else -> - 1
+        sellIn < 0 -> -2
+        else -> -1
     }
 }
 
 class Pass(name: String, sellIn: Int, quality: Int) : BaseItem(name, sellIn, quality) {
     override fun degradation(sellIn: Int): Int = when {
         sellIn < 0 -> quality
-        sellIn < 5 -> - 3
-        sellIn < 10 -> - 2
-        else -> - 1
+        sellIn < 5 -> -3
+        sellIn < 10 -> -2
+        else -> -1
     }
 }
 
