@@ -1,8 +1,8 @@
 package com.gildedrose
 
-class GildedRose(var items: List<Item>) {
-    fun updateQuality() {
-        items = items.map { it.updated() }
-    }
+class GildedRose(
+    val items: List<Item>
+) {
+    fun updated(): GildedRose = GildedRose(items.map { it.updated() })
 }
 
