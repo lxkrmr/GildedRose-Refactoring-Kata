@@ -1,6 +1,6 @@
 package com.gildedrose
 
-import org.junit.jupiter.api.Assertions
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import java.io.ByteArrayOutputStream
 import java.io.PrintStream
@@ -8,9 +8,9 @@ import java.io.PrintStream
 class TexttestFixture {
     @Test
     fun test() {
+        // given
         val outputStream = ByteArrayOutputStream()
         val out = PrintStream(outputStream)
-        out.println("OMGHAI!")
         val items = listOf(
             Item("+5 Dexterity Vest", 10, 20),
             Brie("Aged Brie", 2, 0),
@@ -22,18 +22,22 @@ class TexttestFixture {
             Pass("Backstage passes to a TAFKAL80ETC concert", 5, 49),
             Conjured("Conjured Mana Cake", 3, 6)
         )
-        var app = GildedRose(items)
         val days = 10
-        for (i in 0 until days) {
-            out.println("-------- day $i --------")
+        val apps = generateSequence(GildedRose(items)) { it.updated() }
+
+        // when
+        out.println("OMGHAI!")
+        apps.take(days).forEachIndexed { index, app ->
+            out.println("-------- day $index --------")
             out.println("name, sellIn, quality")
             for (item in app.items) {
                 out.println(item)
             }
             out.println()
-            app = app.updated()
         }
-        Assertions.assertEquals(expected, outputStream.toString())
+
+        // then
+        assertEquals(expected, outputStream.toString())
     }
 
     private val expected = """
