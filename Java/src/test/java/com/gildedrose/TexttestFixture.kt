@@ -11,15 +11,15 @@ class TexttestFixture {
         val outputStream = ByteArrayOutputStream()
         val out = PrintStream(outputStream)
         out.println("OMGHAI!")
-        val items = arrayOf<Item>(
-            Item("+5 Dexterity Vest", 10, 20),  //
-            Brie("Aged Brie", 2, 0),  //
-            Item("Elixir of the Mongoose", 5, 7),  //
-            Sulfuras("Sulfuras, Hand of Ragnaros", 0, 80),  //
+        val items = listOf(
+            Item("+5 Dexterity Vest", 10, 20),
+            Brie("Aged Brie", 2, 0),
+            Item("Elixir of the Mongoose", 5, 7),
+            Sulfuras("Sulfuras, Hand of Ragnaros", 0, 80),
             Sulfuras("Sulfuras, Hand of Ragnaros", -1, 80),
             Pass("Backstage passes to a TAFKAL80ETC concert", 15, 20),
             Pass("Backstage passes to a TAFKAL80ETC concert", 10, 49),
-            Pass("Backstage passes to a TAFKAL80ETC concert", 5, 49),  // this conjured item does not work properly yet
+            Pass("Backstage passes to a TAFKAL80ETC concert", 5, 49),
             Conjured("Conjured Mana Cake", 3, 6)
         )
         val app = GildedRose(items)
