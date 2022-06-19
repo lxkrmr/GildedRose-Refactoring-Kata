@@ -15,38 +15,24 @@ object Aging {
 }
 
 object Degradation {
-    val standard: (Int, Int) -> Int = { sellIn, _ ->
+    val standard: (Int, Int) -> Int = { currentSellIn, _ ->
         when {
-            sellIn < 0 -> 2
+            currentSellIn < 0 -> 2
             else -> 1
-        }
-    }
-    val brie: (Int, Int) -> Int = { sellIn, _ ->
-        when {
-            sellIn < 0 -> -2
-            else -> -1
-        }
-    }
-    val pass: (Int, Int) -> Int = { sellIn, quality ->
-        when {
-            sellIn < 0 -> quality
-            sellIn < 5 -> -3
-            sellIn < 10 -> -2
-            else -> -1
         }
     }
     val none: (Int, Int) -> Int = { _, _ -> 0 }
 }
 
 object Saturation {
-    val standard: (Int) -> Int = { quality ->
+    val standard: (Int) -> Int = { currentQuality ->
         when {
-            quality < 0 -> 0
-            quality > 50 -> 50
-            else -> quality
+            currentQuality < 0 -> 0
+            currentQuality > 50 -> 50
+            else -> currentQuality
         }
     }
-    val none: (Int) -> Int = { quality -> quality }
+    val none: (Int) -> Int = { currentQuality -> currentQuality }
 }
 
 class BaseItem(
@@ -77,13 +63,38 @@ fun Brie(name: String, sellIn: Int, quality: Int) = BaseItem(
     name,
     sellIn,
     quality,
-    degradation = Degradation.brie
+    degradation = { currentSellIn, _ ->
+        when {
+            currentSellIn < 0 -> -2
+            else -> -1
+        }
+    }
 )
 
 fun Pass(name: String, sellIn: Int, quality: Int) = BaseItem(
     name,
     sellIn,
     quality,
-    degradation = Degradation.pass
+    degradation = { currentSellIn, currentQuality ->
+        when {
+            currentSellIn < 0 -> currentQuality
+            currentSellIn < 5 -> -3
+            currentSellIn < 10 -> -2
+            else -> -1
+        }
+    }
 )
+
+fun Conjured(name: String, sellIn: Int, quality: Int) = BaseItem(
+    name,
+    sellIn,
+    quality,
+    degradation = { curretnSellIn, _ ->
+        when {
+            curretnSellIn < 0 -> 4
+            else -> 2
+        }
+    }
+)
+
 
