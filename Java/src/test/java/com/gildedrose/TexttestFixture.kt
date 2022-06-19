@@ -18,7 +18,6 @@ class TexttestFixture {
             Pass("Backstage passes to a TAFKAL80ETC concert", 5, 49),
             Conjured("Conjured Mana Cake", 3, 6)
         )
-        var app = GildedRose(items)
         val days = 10
         val apps = generateSequence(GildedRose(items)) { it.updated() }
 
