@@ -8,9 +8,18 @@ class Item(
     private val degradation: (Int, Int) -> Int = Degradation.standard,
     private val saturation: (Int) -> Int = Saturation.standard
 ) {
-    fun update() {
-        sellIn = sellIn - aging()
-        quality = saturation(quality - degradation(sellIn, quality))
+
+    fun updated(): Item {
+        val sellIn = sellIn - aging()
+        val quality = saturation(quality - degradation(sellIn, quality))
+        return Item(
+            name = name,
+            sellIn = sellIn,
+            quality = quality,
+            aging = aging,
+            degradation = degradation,
+            saturation = saturation
+        )
     }
 
     override fun toString() = "$name, $sellIn, $quality"
